@@ -1,0 +1,38 @@
+{
+    "name": "daishitie-bot",
+    "version": "1.0.0",
+    "description": "Daishitie Bot Framework",
+    "main": "./src/index.js",
+    "scripts": {
+        "dev": "nodemon ./src/index.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/../.."
+    },
+    "bugs": {
+        "url": "https://github.com/../../issues"
+    },
+    "homepage": "https://github.com/../..#readme",
+    "keywords": [
+        "Discord",
+        "DiscordJS",
+        "Discord.js",
+        "Bot",
+        "Framework",
+        "Daishitie"
+    ],
+    "author": "daishitie",
+    "license": "ISC",
+    "dependencies": {
+        "ascii-table": "^0.0.9",
+        "discord.js": "^13.6.0",
+        "dotenv": "^16.0.0",
+        "glob": "^7.2.0",
+        "mongoose": "^6.2.3"
+    },
+    "devDependencies": {
+        "eslint": "^8.9.0",
+        "nodemon": "^2.0.15"
+    }
+}
