@@ -1,10 +1,13 @@
 {
-    "prefix": "d?",
+    "prefix": ";",
     "guildId": "946061526912106566",
+    "supportGuild": "https://discord.gg/RK5DMUnqPs",
+    "issueTracker": "https://github.com/Twiistrz/DaishitieBot/issues",
+    "inviteLink": "https://discord.com/api/oauth2/authorize?client_id=947579918802362449&permissions=8&scope=bot%20applications.commands",
     "presence": {
         "activities": {
-            "name": "daishitie#0001",
-            "type": "WATCHING",
+            "name": ";help | daishitie.io",
+            "type": "LISTENING",
             "url": ""
         },
         "status": "online"

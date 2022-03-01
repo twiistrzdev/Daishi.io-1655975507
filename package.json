@@ -8,12 +8,12 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/../.."
+        "url": "git+https://github.com/Twiistrz/DaishitieBot"
     },
     "bugs": {
-        "url": "https://github.com/../../issues"
+        "url": "https://github.com/Twiistrz/DaishitieBot/issues"
     },
-    "homepage": "https://github.com/../..#readme",
+    "homepage": "https://github.com/Twiistrz/DaishitieBot#readme",
     "keywords": [
         "Discord",
         "DiscordJS",

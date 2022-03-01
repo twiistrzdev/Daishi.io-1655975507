@@ -24,32 +24,32 @@ module.exports = {
             client.commands.get(client.commandsAliases.get(commandName));
 
 		if (command) {
-			// —— Check user and client permission before executing the command
-			const Error = new MessageEmbed()
-				.setColor('RED')
-				.setFooter({ text: `ID: ${message.member.id}` });
+			const Response = new MessageEmbed();
+			Response.setColor('RED');
 
+			// —— Check client permission
 			if (command.clientPermission) {
 				if (!message.guild.me.permissions.has(command.clientPermission)) {
-					Error
-						.setDescription(`${message.member}, I don't have permission to execute the **${commandName}** command.`)
-						.addField('Missing Permission Node', command.clientPermission);
-
-					return message.channel.send({ embeds: [Error] });
+					Response.setDescription(`${message.member}, I don't have permission to execute the **${commandName}** command.`);
+					Response.addField('Missing Permission', command.clientPermission);
+					return message.channel.send({ embeds: [Response] });
 				}
 			}
 
+			// —— Check user permission
 			if (command.userPermission) {
 				if (!message.member.permissions.has(command.userPermission)) {
-					Error
-						.setDescription(`${message.member}, you don't have permission to use the **${commandName}** command.`)
-						.addField('Missing Permission Node', command.userPermission);
-
-					return message.channel.send({ embeds: [Error] });
+					Response.setDescription(`${message.member}, you don't have permission to use the **${commandName}** command.`);
+					Response.addField('Missing Permission', command.userPermission);
+					return message.channel.send({ embeds: [Response] });
 				}
 			}
 
-			command.execute(client, message, args);
+			// —— Fetch the members to cache
+			await message.guild.members.fetch();
+
+			// —— Executes the command
+			await command.execute(client, message, args, prefix);
 		}
 	},
 };
