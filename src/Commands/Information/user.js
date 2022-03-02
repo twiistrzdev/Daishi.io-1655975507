@@ -2,10 +2,11 @@
 
 // —— A powerful library for interacting with the Discord API
 const { Client, Message, MessageEmbed } = require('discord.js');
-// —— Config
-const { supportGuild, issueTracker } = require('../../config.json');
+// —— Includes config file
+const { supportGuild, issueTracker, color } = require('../../config.json');
 // —— Command usage helper
 const CommandUsage = require('../../Helpers/CommandUsage');
+// —— Retrieve user id helper
 const RetrieveUserID = require('../../Helpers/RetrieveUserID');
 // —— Subcommand usage helper
 const SubcommandUsage = require('../../Helpers/SubcommandUsage');
@@ -79,7 +80,7 @@ module.exports = {
 				return SubcommandUsage(Response, client, message, this.name, subcommandName);
 			}
 
-			Response.setColor('AQUA');
+			Response.setColor(color.primary);
 
 			if (subcommandName === 'info') {
 				Response.setAuthor({

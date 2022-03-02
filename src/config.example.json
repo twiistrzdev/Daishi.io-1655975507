@@ -6,10 +6,14 @@
     "inviteLink": "https://discord.com/api/oauth2/authorize?client_id=948542351595433994&permissions=8&scope=bot%20applications.commands",
     "presence": {
         "activities": {
-            "name": ";help | daishitie.io",
+            "name": ";help | Daishi.io",
             "type": "LISTENING",
             "url": ""
         },
         "status": "online"
+    },
+    "color": {
+        "primary": "#41E2D2",
+        "error": "RED"
     }
 }

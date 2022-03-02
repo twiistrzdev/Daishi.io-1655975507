@@ -2,6 +2,8 @@
 
 // —— A powerful library for interacting with the Discord API
 const { Client, Message, MessageEmbed } = require('discord.js');
+// —— Includes config file
+const { color } = require('../config.json');
 
 // ██████ | ███████████████████████████████████████████████████████████████████
 
@@ -18,7 +20,7 @@ module.exports = async (Response, client, message, commandName, subcommandName) 
 	const command = client.commands.get(commandName);
 	const subcommand = command.subcommands.find(sc => sc.name === subcommandName);
 
-	Response.setColor('RED');
+	Response.setColor(color.error);
 	Response.setAuthor({
 		name: `${command.name} ${subcommand.name}`,
 		iconURL: message.author.displayAvatarURL({ dynamic: true, size: 512 }),

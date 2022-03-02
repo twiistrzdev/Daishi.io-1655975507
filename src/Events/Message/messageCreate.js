@@ -2,6 +2,8 @@
 
 // —— A powerful library for interacting with the Discord API
 const { Client, Message, MessageEmbed } = require('discord.js');
+// —— Includes config file
+const { color } = require('../../config.json');
 
 // ██████ | ███████████████████████████████████████████████████████████████████
 
@@ -23,7 +25,7 @@ module.exports = {
 
 		if (command) {
 			const Response = new MessageEmbed();
-			Response.setColor('RED');
+			Response.setColor(color.error);
 
 			// —— Check client permission
 			if (command.clientPermission) {
