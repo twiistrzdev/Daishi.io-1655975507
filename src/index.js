@@ -45,6 +45,8 @@ client.events = new Collection();
 client.commands = new Collection();
 // —— Collection of all command aliases
 client.commandsAliases = new Collection();
+// —— Collection of member fetched by guild, boolean
+client.isMembersFetchedByGuild = new Collection();
 
 // —— Clear the console 🧹
 console.clear();

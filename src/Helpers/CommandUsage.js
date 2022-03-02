@@ -22,6 +22,7 @@ module.exports = async (Response, client, message, commandName) => {
 		iconURL: message.author.displayAvatarURL({ dynamic: true, size: 512 }),
 	});
 
+	// —— Check if theres a subcommands in command
 	if (command.subcommands) {
 		const subcommands = [];
 
@@ -31,6 +32,8 @@ module.exports = async (Response, client, message, commandName) => {
 
 		Response.addField('Subcommands', subcommands.join('\n'));
 	}
+
+	// —— Else, Show the command usage instead
 	else {
 		Response.addField('Usage', `\`${client.prefix}${command.name} ${command.usage}\``);
 	}

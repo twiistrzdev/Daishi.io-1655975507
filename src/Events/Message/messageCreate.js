@@ -43,8 +43,12 @@ module.exports = {
 				}
 			}
 
-			// —— Fetch the members to cache
-			await message.guild.members.fetch();
+			// —— Check if the members are already fetched
+			if (!client.isMembersFetchedByGuild.get(message.guild.id)) {
+				// —— Fetch the members to cache
+				await message.guild.members.fetch();
+				await client.isMembersFetchedByGuild.set(message.guild.id, true);
+			}
 
 			// —— Executes the command
 			return command.execute(client, message, args);

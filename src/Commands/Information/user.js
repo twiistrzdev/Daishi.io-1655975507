@@ -62,19 +62,19 @@ module.exports = {
 		const Response = new MessageEmbed();
 		const subcommandName = args[0];
 
-		// Check if the subcommand is invalid or missing
+		// —— Check if the subcommand is invalid or missing
 		if (!subcommandName || !this.subcommands.find(subcommand => subcommand.name === subcommandName)) {
 			return CommandUsage(Response, client, message, this.name);
 		}
 
 		if (subcommandName) {
-			// Retrieve user id from mention, given id, author
+			// —— Retrieve user id from mention, given id, author
 			const targetID = RetrieveUserID(message, args[1]);
 
-			// Get the guild member by ID
+			// —— Get the guild member by ID
 			const member = message.guild.members.cache.find(m => m.id === targetID);
 
-			// Check if subcommand usage is invalid
+			// —— Check if subcommand usage is invalid
 			if (this.subcommands.find(subcommand => subcommand.name === subcommandName) && !member) {
 				return SubcommandUsage(Response, client, message, this.name, subcommandName);
 			}
