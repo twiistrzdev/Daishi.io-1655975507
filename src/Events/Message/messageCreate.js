@@ -2,8 +2,6 @@
 
 // —— A powerful library for interacting with the Discord API
 const { Client, Message, MessageEmbed } = require('discord.js');
-// —— Includes config file
-const { prefix } = require('../../config.json');
 
 // ██████ | ███████████████████████████████████████████████████████████████████
 
@@ -16,9 +14,9 @@ module.exports = {
      * @param {Client} client
      */
 	async execute(message, client) {
-		if (!message.content.startsWith(prefix) || message.author.bot || message.channel.type === 'DM') return;
+		if (!message.content.startsWith(client.prefix) || message.author.bot || message.channel.type === 'DM') return;
 
-		const args = message.content.slice(prefix.length).split(/ +/);
+		const args = message.content.slice(client.prefix.length).split(/ +/);
 		const commandName = args.shift().toLowerCase();
 		const command = client.commands.get(commandName) ||
             client.commands.get(client.commandsAliases.get(commandName));
@@ -49,7 +47,7 @@ module.exports = {
 			await message.guild.members.fetch();
 
 			// —— Executes the command
-			await command.execute(client, message, args, prefix);
+			return command.execute(client, message, args);
 		}
 	},
 };

@@ -58,48 +58,30 @@ module.exports = {
      * @param {Message} message
      * @param {String[]} args
      */
-	async execute(client, message, args, prefix) {
+	async execute(client, message, args) {
 		const Response = new MessageEmbed();
-		const subcommand = args[0];
+		const subcommandName = args[0];
 
 		// Check if the subcommand is invalid or missing
-		if (!subcommand || !this.subcommands.find(sc => sc.name === subcommand)) {
-			CommandUsage(
-				Response,
-				message,
-				prefix,
-				this.name,
-				this.description,
-				this.subcommands,
-			);
-
-			return message.channel.send({ embeds: [Response] });
+		if (!subcommandName || !this.subcommands.find(subcommand => subcommand.name === subcommandName)) {
+			return CommandUsage(Response, client, message, this.name);
 		}
 
-		if (subcommand) {
+		if (subcommandName) {
+			// Retrieve user id from mention, given id, author
 			const targetID = RetrieveUserID(message, args[1]);
 
 			// Get the guild member by ID
 			const member = message.guild.members.cache.find(m => m.id === targetID);
 
 			// Check if subcommand usage is invalid
-			if (this.subcommands.find(sc => sc.name === subcommand) && !member) {
-				SubcommandUsage(
-					Response,
-					message,
-					prefix,
-					this.name,
-					subcommand,
-					this.subcommands.find(sc => sc.name === subcommand).usage,
-					this.subcommands.find(sc => sc.name === subcommand).description,
-				);
-
-				return message.channel.send({ embeds: [Response] });
+			if (this.subcommands.find(subcommand => subcommand.name === subcommandName) && !member) {
+				return SubcommandUsage(Response, client, message, this.name, subcommandName);
 			}
 
 			Response.setColor('AQUA');
 
-			if (subcommand === 'info') {
+			if (subcommandName === 'info') {
 				Response.setAuthor({
 					name: `${member.user.tag} | User Information`,
 					iconURL: member.displayAvatarURL({ dynamic: true, size: 512 }),
@@ -122,6 +104,6 @@ module.exports = {
 			}
 		}
 
-		await message.channel.send({ embeds: [Response] });
+		return message.channel.send({ embeds: [Response] });
 	},
 };

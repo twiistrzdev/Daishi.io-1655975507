@@ -1,33 +1,40 @@
 // ██████ Integrations ████████████████████████████████████████████████████████
 
 // —— A powerful library for interacting with the Discord API
-const { Message, MessageEmbed } = require('discord.js');
+const { Client, Message, MessageEmbed } = require('discord.js');
 
 // ██████ | ███████████████████████████████████████████████████████████████████
 
 /**
  *
  * @param {MessageEmbed} Response
+ * @param {Client} client
  * @param {Message} message
- * @param {String} prefix
- * @param {String} command
- * @param {String} description
- * @param {String[]} subcommands
+ * @param {String} commandName
  * @returns {MessageEmbed}
  */
-module.exports = async (Response, message, prefix, command, description, subcommands) => {
+module.exports = async (Response, client, message, commandName) => {
+	const command = client.commands.get(commandName);
+
 	Response.setColor('RED');
 	Response.setAuthor({
-		name: `${command}`,
+		name: `${command.name}`,
 		iconURL: message.author.displayAvatarURL({ dynamic: true, size: 512 }),
 	});
-	const scs = [];
 
-	subcommands.forEach(subcommand => {
-		scs.push(`\`${prefix}${command} ${subcommand.name}\` - ${subcommand.description}`);
-	});
+	if (command.subcommands) {
+		const subcommands = [];
 
-	Response.addField('Subcommands', scs.join('\n'));
-	Response.setFooter({ text: description });
-	return Response;
+		command.subcommands.forEach(subcommand => {
+			subcommands.push(`\`${client.prefix}${commandName} ${subcommand.name}\` - ${subcommand.description}`);
+		});
+
+		Response.addField('Subcommands', subcommands.join('\n'));
+	}
+	else {
+		Response.addField('Usage', `\`${client.prefix}${command.name} ${command.usage}\``);
+	}
+
+	Response.setFooter({ text: command.description });
+	return message.channel.send({ embeds: [Response] });
 };

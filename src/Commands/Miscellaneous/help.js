@@ -20,10 +20,11 @@ module.exports = {
      */
 	async execute(client, message, args, prefix) {
 		const Response = new MessageEmbed();
+		const commandName = args[0];
 
-		if (args[0]) {
-			const command = client.commands.get(args[0]) ||
-				client.commands.get(client.commandsAliases.get(args[0]));
+		if (commandName) {
+			const command = client.commands.get(commandName) ||
+				client.commands.get(client.commandsAliases.get(commandName));
 
 			if (command) {
 				Response.setColor('AQUA');
@@ -69,6 +70,6 @@ module.exports = {
 			// Response.addField('💶 Donate', 'Donate to Daishitie development');
 		}
 
-		await message.channel.send({ embeds: [Response] });
+		return message.channel.send({ embeds: [Response] });
 	},
 };

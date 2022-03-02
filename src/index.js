@@ -6,6 +6,8 @@ require('dotenv').config();
 const { Client, Intents, Collection } = require('discord.js');
 // —— Glob Filepaths
 const { glob } = require('glob');
+// —— Config file
+const { prefix } = require('./config.json');
 
 // ██████ Initialization ██████████████████████████████████████████████████████
 
@@ -36,6 +38,7 @@ const client = new Client({
 	},
 });
 
+client.prefix = prefix;
 // —— Collection of all events
 client.events = new Collection();
 // —— Collection of all commands
