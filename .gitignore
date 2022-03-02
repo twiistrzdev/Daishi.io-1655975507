@@ -2,7 +2,7 @@
 .env
 
 # Ignore config.json
-/src/config.json
+src/config.json
 
 # Ignore node_modules
-/node_modules
+node_modules
