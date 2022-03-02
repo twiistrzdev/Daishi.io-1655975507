@@ -18,6 +18,10 @@ module.exports = {
      * @param {Client} client
      */
 	async execute(client) {
+		if (client.user.id === '947579918802362449') {
+			client.prefix = ';;';
+		}
+
 		// —— Initialize MongoDB
 		if (process.env.MONGODB) {
 			console.log('\nConnecting to MongoDB server...');

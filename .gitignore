@@ -1,5 +1,8 @@
 # Ignore env file
 .env
 
+# Ignore config.json
+/src/config.json
+
 # Ignore node_modules
 /node_modules

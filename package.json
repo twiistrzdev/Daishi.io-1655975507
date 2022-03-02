@@ -1,28 +1,29 @@
 {
-    "name": "daishitie-bot",
+    "name": "daishi.io",
     "version": "1.0.0",
-    "description": "Daishitie Bot Framework",
+    "description": "Daishi.io - Discord Bot",
     "main": "./src/index.js",
     "scripts": {
         "dev": "nodemon ./src/index.js"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Twiistrz/DaishitieBot"
+        "url": "git+https://github.com/Twiistrz/Daishi.io"
     },
     "bugs": {
-        "url": "https://github.com/Twiistrz/DaishitieBot/issues"
+        "url": "https://github.com/Twiistrz/Daishi.io/issues"
     },
-    "homepage": "https://github.com/Twiistrz/DaishitieBot#readme",
+    "homepage": "https://github.com/Twiistrz/Daishi.io#readme",
     "keywords": [
         "Discord",
         "DiscordJS",
         "Discord.js",
         "Bot",
         "Framework",
-        "Daishitie"
+        "Daishi.io",
+        "Daishi"
     ],
-    "author": "daishitie",
+    "author": "Twiistrz",
     "license": "ISC",
     "dependencies": {
         "ascii-table": "^0.0.9",
