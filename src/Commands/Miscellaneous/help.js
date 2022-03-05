@@ -18,7 +18,7 @@ module.exports = {
      * @param {Message} message
      * @param {String[]} args
      */
-	async execute(client, message, args, prefix) {
+	async execute(client, message, args) {
 		const Response = new MessageEmbed();
 		const commandName = args[0];
 
@@ -32,7 +32,7 @@ module.exports = {
 					name: command.name,
 					iconURL: client.user.displayAvatarURL({ dynamic: true, size: 512 }),
 				});
-				Response.addField('Usage', `\`${prefix}${command.name} ${command.usage || ''}\``);
+				Response.addField('Usage', `\`${client.prefix}${command.name} ${command.usage || ''}\``);
 
 				if (command.aliases) Response.addField('Aliases', command.aliases.join(', '));
 
@@ -40,7 +40,7 @@ module.exports = {
 					const subcommands = [];
 
 					await command.subcommands.forEach(subcommand => {
-						subcommands.push(`\`${prefix}${command.name} ${subcommand.name}\` - ${subcommand.description}`);
+						subcommands.push(`\`${client.prefix}${command.name} ${subcommand.name}\` - ${subcommand.description}`);
 					});
 
 					Response.addField('Subcommands', subcommands.join('\n'));
@@ -64,9 +64,9 @@ module.exports = {
 				'Daishitie Bot Framework\n' +
 				'For Development and Testings',
 			);
-			Response.addField('📃 Commands', `Use \`${prefix}commands\` for a full list of commands`);
+			Response.addField('📃 Commands', `Use \`${client.prefix}commands\` for a full list of commands`);
 			Response.addField('❓ Support', `Join the [support server](${supportGuild})`);
-			Response.addField('🔗 Invite', `[Invite Daishitie](${inviteLink}) to your server`);
+			Response.addField('🔗 Invite', `[Invite ${client.user.username}](${inviteLink}) to your server`);
 			// Response.addField('💶 Donate', 'Donate to Daishitie development');
 		}
 

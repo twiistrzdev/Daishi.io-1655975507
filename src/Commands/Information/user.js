@@ -10,6 +10,8 @@ const CommandUsage = require('../../Helpers/CommandUsage');
 const RetrieveUserID = require('../../Helpers/RetrieveUserID');
 // —— Subcommand usage helper
 const SubcommandUsage = require('../../Helpers/SubcommandUsage');
+const xios = require('axios');
+const { default: axios } = require('axios');
 
 // ██████ | ███████████████████████████████████████████████████████████████████
 
@@ -102,6 +104,58 @@ module.exports = {
 
 				Response.addField('Permissions', member.permissions.toArray().toString());
 				// Response.addField('Roles', member.roles.cache.toArray().toString());
+			}
+			else if (subcommandName === 'avatar') {
+				Response.setAuthor({
+					name: `${member.user.tag} | Avatar`,
+					iconURL: member.displayAvatarURL({ dynamic: true, size: 512 }),
+				});
+				Response.setDescription(
+					'**Link as**\n' +
+					`[png](${member.displayAvatarURL({ format: 'png', size: 512 })})` +
+					` | [jpg](${member.displayAvatarURL({ format: 'jpg', size: 512 })})` +
+					` | [webp](${member.displayAvatarURL({ format: 'webp', size: 512 })})` +
+					`${member.user.avatar.startsWith('a_') ? ` | [gif](${member.displayAvatarURL({ format: 'gif', size: 512 })})` : ''}`,
+				);
+				Response.setImage(member.displayAvatarURL({ dynamic: true, size: 512 }));
+			}
+			else if (subcommandName === 'banner') {
+				Response.setAuthor({
+					name: `${member.user.tag} | Banner`,
+					iconURL: member.displayAvatarURL({ dynamic: true, size: 512 }),
+				});
+
+				await axios
+					.get(`https://discord.com/api/users/${member.id}`, {
+						headers: {
+							Authorization: `Bot ${client.token}`,
+						},
+					})
+					.then(result => {
+						const { banner, accent_color } = result.data;
+
+						if (banner) {
+							const extension = banner.startsWith('a_') ? '.gif' : '.png';
+							const url = `https://cdn.discordapp.com/banners/${member.id}/${banner}`;
+							const dynamic = `${url}${extension}?size=512`;
+
+							Response.setDescription(
+								'**Link as**\n' +
+								`[png](${url}.png?size=512)` +
+								` | [jpg](${url}.jpg?size=512)` +
+								` | [webp](${url}.webp?size=512)` +
+								`${banner.startsWith('a_') ? ` | [gif](${dynamic})` : ''}`,
+							);
+							Response.setImage(dynamic);
+						}
+						else if (accent_color) {
+							Response.setDescription(`${member} doesn't have any banner but they do have an accent color: \`${accent_color}\`.`);
+						}
+						else {
+							Response.setDescription(`${member} does not have a banner nor accent color.`);
+						}
+					});
+
 			}
 		}
 
