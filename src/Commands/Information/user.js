@@ -87,9 +87,9 @@ module.exports = {
 			if (subcommandName === 'info') {
 				Response.setAuthor({
 					name: `${member.user.tag} | User Information`,
-					iconURL: member.displayAvatarURL({ dynamic: true, size: 512 }),
+					iconURL: member.displayAvatarURL({ dynamic: true, size: 1024 }),
 				});
-				Response.setThumbnail(member.displayAvatarURL({ dynamic: true, size: 512 }));
+				Response.setThumbnail(member.displayAvatarURL({ dynamic: true, size: 1024 }));
 				Response.setDescription(`ID: ${member.id}`);
 
 				// —— Check if user has nickname
@@ -102,27 +102,58 @@ module.exports = {
 				// —— Check if user has boosted the server
 				if (member.premiumSince) Response.addField('Boosted Date', `<t:${parseInt(member.premiumSinceTimestamp / 1000)}:f>`);
 
-				Response.addField('Permissions', member.permissions.toArray().toString());
+				let permissions = '';
+				if (member.guild.ownerId === member.id) {
+					permissions = '<:Perms_Owner:949547766705713152> Owner';
+				}
+				else if (member.user.bot) {
+					permissions = '<:Perms_Bot:949547766617632788> Bot';
+				}
+				else if (member.permissions.has('ADMINISTRATOR')) {
+					permissions = '<:Perms_Administrator:949547766554705940> Administrator';
+				}
+				else {
+					permissions = '<:Perms_Member:949547766508552282> Member';
+				}
+
+				Response.addField('Permissions', permissions);
 				// Response.addField('Roles', member.roles.cache.toArray().toString());
+
+				await axios
+					.get(`https://discord.com/api/users/${member.id}`, {
+						headers: {
+							Authorization: `Bot ${client.token}`,
+						},
+					})
+					.then(result => {
+						const { banner } = result.data;
+
+						if (banner) {
+							const extension = banner.startsWith('a_') ? '.gif' : '.png';
+							const dynamic = `https://cdn.discordapp.com/banners/${member.id}/${banner}${extension}?size=1024`;
+
+							Response.setImage(dynamic);
+						}
+					});
 			}
 			else if (subcommandName === 'avatar') {
 				Response.setAuthor({
 					name: `${member.user.tag} | Avatar`,
-					iconURL: member.displayAvatarURL({ dynamic: true, size: 512 }),
+					iconURL: member.displayAvatarURL({ dynamic: true, size: 1024 }),
 				});
 				Response.setDescription(
 					'**Link as**\n' +
-					`[png](${member.displayAvatarURL({ format: 'png', size: 512 })})` +
-					` | [jpg](${member.displayAvatarURL({ format: 'jpg', size: 512 })})` +
-					` | [webp](${member.displayAvatarURL({ format: 'webp', size: 512 })})` +
-					`${member.user.avatar.startsWith('a_') ? ` | [gif](${member.displayAvatarURL({ format: 'gif', size: 512 })})` : ''}`,
+					`[png](${member.displayAvatarURL({ format: 'png', size: 1024 })})` +
+					` | [jpg](${member.displayAvatarURL({ format: 'jpg', size: 1024 })})` +
+					` | [webp](${member.displayAvatarURL({ format: 'webp', size: 1024 })})` +
+					`${member.user.avatar.startsWith('a_') ? ` | [gif](${member.displayAvatarURL({ format: 'gif', size: 1024 })})` : ''}`,
 				);
-				Response.setImage(member.displayAvatarURL({ dynamic: true, size: 512 }));
+				Response.setImage(member.displayAvatarURL({ dynamic: true, size: 1024 }));
 			}
 			else if (subcommandName === 'banner') {
 				Response.setAuthor({
 					name: `${member.user.tag} | Banner`,
-					iconURL: member.displayAvatarURL({ dynamic: true, size: 512 }),
+					iconURL: member.displayAvatarURL({ dynamic: true, size: 1024 }),
 				});
 
 				await axios
@@ -137,13 +168,13 @@ module.exports = {
 						if (banner) {
 							const extension = banner.startsWith('a_') ? '.gif' : '.png';
 							const url = `https://cdn.discordapp.com/banners/${member.id}/${banner}`;
-							const dynamic = `${url}${extension}?size=512`;
+							const dynamic = `${url}${extension}?size=1024`;
 
 							Response.setDescription(
 								'**Link as**\n' +
-								`[png](${url}.png?size=512)` +
-								` | [jpg](${url}.jpg?size=512)` +
-								` | [webp](${url}.webp?size=512)` +
+								`[png](${url}.png?size=1024)` +
+								` | [jpg](${url}.jpg?size=1024)` +
+								` | [webp](${url}.webp?size=1024)` +
 								`${banner.startsWith('a_') ? ` | [gif](${dynamic})` : ''}`,
 							);
 							Response.setImage(dynamic);
