@@ -2,44 +2,41 @@
 
 // —— A powerful library for interacting with the Discord API
 const { Client, Message, MessageEmbed } = require('discord.js');
+// —— Includes channel resolver
+const ResolveChannel = require('../../Core/Resolvers/ChannelResolver');
 // —— Includes config file
-const { color } = require('../config.json');
+const { colors } = require('../../config.json');
 
 // ██████ | ███████████████████████████████████████████████████████████████████
 
 /**
  *
- * @param {MessageEmbed} Response
  * @param {Client} client
  * @param {Message} message
  * @param {String} commandName
- * @returns {MessageEmbed}
  */
-module.exports = async (Response, client, message, commandName) => {
+module.exports = async (client, message, commandName) => {
 	const command = client.commands.get(commandName);
+	const subcommands = [];
 
-	Response.setColor(color.error);
-	Response.setAuthor({
-		name: `${command.name}`,
-		iconURL: message.author.displayAvatarURL({ dynamic: true, size: 512 }),
-	});
+	const Response = new MessageEmbed()
+		.setColor(colors.primary)
+		.setAuthor({
+			name: command.name,
+			iconURL: message.author.displayAvatarURL({ dynamic: true, size: 512 }),
+		})
+		.setFooter({ text: command.description });
 
-	// —— Check if theres a subcommands in command
 	if (command.subcommands) {
-		const subcommands = [];
-
 		command.subcommands.forEach(subcommand => {
-			subcommands.push(`\`${client.prefix}${commandName} ${subcommand.name}\` - ${subcommand.description}`);
+			subcommands.push(`\`${client.prefix}${command.name} ${subcommand.name}\` - ${subcommand.description}`);
 		});
 
 		Response.addField('Subcommands', subcommands.join('\n'));
 	}
-
-	// —— Else, Show the command usage instead
 	else {
-		Response.addField('Usage', `\`${client.prefix}${command.name} ${command.usage}\``);
+		Response.addField('Usage', `\`${client.prefix}${command.name}${command.usage ? ' ' + command.usage : ''}\``);
 	}
 
-	Response.setFooter({ text: command.description });
-	return message.channel.send({ embeds: [Response] });
+	return ResolveChannel(message).send({ embeds: [Response] });
 };

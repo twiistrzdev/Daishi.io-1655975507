@@ -2,8 +2,8 @@
 
 // —— A powerful library for interacting with the Discord API
 const { Client } = require('discord.js');
-// —— Events name
-const { Events } = require('../Validations/Events');
+// —— A MongoDB object modeling tool designed to work in an asynchronous environment
+const mongoose = require('mongoose');
 // —— Returns promises
 const { promisify } = require('util');
 // —— Glob Filepaths
@@ -21,29 +21,21 @@ const Ascii = require('ascii-table');
  */
 module.exports = async (client) => {
 	const promisifyGlob = promisify(glob);
-	const table = new Ascii('Events Handler');
+	const Table = new Ascii('Models Handler');
 
-	table.setHeading('Status', 'Name', 'File', 'Message');
+	Table.setHeading('', 'Name', 'File', 'Message');
 
-	(await promisifyGlob(`${process.cwd()}/src/Events/**/*.js`))
-		.map(async (eventFile) => {
-			const event = require(eventFile);
-			const file = path.parse(eventFile).base;
+	(await promisifyGlob(`${process.cwd()}/src/Models/**/*.js`))
+		.map(async (modelFile) => {
+			const model = require(modelFile);
+			const file = path.parse(modelFile).base;
 
-			if (!event.name || !Events.includes(event.name)) {
-				return table.addRow('🔴 Error', '', file, 'Invalid or missing event name.');
+			if (!model.modelName) {
+				return Table.addRow('🔴', '', file, 'Missing model name.');
 			}
 
-			if (event.once) {
-				client.once(event.name, (...args) => event.execute(...args, client));
-			}
-			else {
-				client.on(event.name, (...args) => event.execute(...args, client));
-			}
-
-			client.events.set(event.name, event);
-			return table.addRow('🟢 Registered', event.name, file);
+			return Table.addRow('🟢', model.modelName, file);
 		});
 
-	console.log(table.toString());
+	if (Table.__rows.length) console.log(Table.toString());
 };

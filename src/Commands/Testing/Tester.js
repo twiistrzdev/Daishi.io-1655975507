@@ -1,22 +1,33 @@
 // ██████ Integrations ████████████████████████████████████████████████████████
 
 // —— A powerful library for interacting with the Discord API
-const { Client, Message, MessageEmbed, DMChannel } = require('discord.js');
+const { Client, Message } = require('discord.js');
 
 // ██████ | ███████████████████████████████████████████████████████████████████
 
 module.exports = {
-	name: 'server',
-	category: 'info',
-	description: 'Server information commands.',
+	name: 'tester',
+	aliases: ['t'],
+	category: 'Testing',
+	cooldown: 15,
+	testOnly: false,
+	ownerOnly: false,
+	description: 'Tester.',
+	// userPermissions: 'ADMINISTRATOR',
+	clientPermissions: 'ADMINISTRATOR',
 
 	/**
+     * Command to be executed
      *
      * @param {Client} client
      * @param {Message} message
      * @param {String[]} args
      */
-	async execute(client, message, args) {
-		await message.channel.send('This feature is not quite ready yet. Check back later!');
+	async callback(client, message, [target]) {
+		console.log(client.categories);
+		return message.channel.send({
+			content: 'Tester',
+		});
 	},
+
 };

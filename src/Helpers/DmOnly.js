@@ -1,23 +1,23 @@
 // ██████ Integrations ████████████████████████████████████████████████████████
 
 // —— A powerful library for interacting with the Discord API
-const { Client, Message, MessageEmbed } = require('discord.js');
+const { Message, MessageEmbed } = require('discord.js');
+// —— Includes config file
+const { colors } = require('../config.json');
 
 // ██████ | ███████████████████████████████████████████████████████████████████
 
-module.exports = {
-	name: 'suggest',
-	usage: '<suggestion>',
-	category: 'misc',
-	description: 'Submit a server suggestion.',
+/**
+ *
+ * @param {Message} message
+ * @param {String} command
+ */
+module.exports = (message) => {
+	const Response = new MessageEmbed()
+		.setColor(colors.error)
+		.setAuthor({ name: 'This command can only be use in DMs.' });
 
-	/**
-     *
-     * @param {Client} client
-     * @param {Message} message
-     * @param {String[]} args
-     */
-	async execute(client, message, args) {
-		console.log(this.name, this.description);
-	},
+	return message
+		.reply({ embeds: [Response] })
+		.then(reply => setTimeout(() => { reply.delete(); }, 1000 * 15));
 };

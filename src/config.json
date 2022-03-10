@@ -1,0 +1,42 @@
+{
+    "prefix": ";;",
+    "defaultCooldownDuration": 15,
+    "enableStatusLogging": false,
+
+    "presence": {
+        "activity": {
+            "name": "{{prefix}}help | Daishi.io",
+            "type": "LISTENING",
+            "url": ""
+        },
+        "status": "online"
+    },
+
+    "guild": {
+        "id": "948475004817932299",
+        "invite": "https://discord.gg/jRBGVV9KMB"
+    },
+
+    "logsChannel": {
+        "status": "948516272117796887",
+        "error": "950846701269319740"
+    },
+
+    "colors": {
+        "primary": "#41E2D2",
+        "success": "GREEN",
+        "error": "RED",
+        "info": "BLUE"
+    },
+
+    "links": {
+        "repository": "https://github.com/Twiistrz/Daishi.io",
+        "issueTracker": "https://github.com/Twiistrz/Daishi.io/issues",
+        "clientInvite": "https://discord.com/api/oauth2/authorize?client_id=948542351595433994&permissions=8&scope=bot%20applications.commands"
+    },
+
+    "whitelist": {
+        "guilds": ["948475004817932299"],
+        "users": ["742419682489008188"]
+    }
+}

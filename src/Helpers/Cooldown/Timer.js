@@ -1,22 +1,16 @@
 // ██████ Integrations ████████████████████████████████████████████████████████
 
 // —— A powerful library for interacting with the Discord API
-const { Client, Message, MessageEmbed } = require('discord.js');
+const { Message, MessageEmbed, MessageActionRow, MessageButton } = require('discord.js');
+// —— Includes config file
+const { colors } = require('../../config.json');
 
 // ██████ | ███████████████████████████████████████████████████████████████████
 
-module.exports = {
-	name: 'vote',
-	category: 'misc',
-	description: 'Vote for Daishitie.',
+module.exports = (client, message, id, duration) => {
+	// —— Add the cooldown to our client collection
+	client.cooldowns.set(id, message.createdTimestamp);
 
-	/**
-     *
-     * @param {Client} client
-     * @param {Message} message
-     * @param {String[]} args
-     */
-	async execute(client, message, args) {
-		console.log(this.name, this.description);
-	},
+	// —— Timer before we delete the cooldown in our collection
+	return setTimeout(() => client.cooldowns.delete(id), 1000 * duration);
 };
